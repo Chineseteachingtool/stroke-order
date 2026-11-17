@@ -7,7 +7,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Andika:wght@400;700&family=LXGW+WenKai+TC:wght@400;700&display=swap" rel="stylesheet">
-<script src="lib/hanzi-writer.min.js"></script>
+<script src="hanzi-writer.min.js"></script>
 <style>
 :root{
   /* 練習簿：白紙、綠色格線、墨色字。紅＝部首、藍＝其他部件是語義色，不作裝飾用；金色只標示「目前這個字／這一筆」 */
@@ -287,7 +287,7 @@ function paintUI(){
 /* ---------- 資料 ---------- */
 function chunkOf(ch){
   const k=ch.codePointAt(0)%NCH;
-  return chunks[k]||(chunks[k]=fetch('data/c/'+k+'.json').then(r=>{if(!r.ok)throw new Error('HTTP '+r.status);return r.json()}));
+  return chunks[k]||(chunks[k]=fetch(k+'.json').then(r=>{if(!r.ok)throw new Error('HTTP '+r.status);return r.json()}));
 }
 const getChar=ch=>chunkOf(ch).then(c=>c[ch]||null);
 function wordIndex(){
@@ -635,7 +635,7 @@ async function start(saved){
   MODE=first.mode==='sc'?'sc':'tc';
   paintUI();
   try{
-    const[c,w]=await Promise.all([fetch('data/conv.json').then(r=>r.json()),fetch('data/words.json').then(r=>r.json())]);
+    const[c,w]=await Promise.all([fetch('conv.json').then(r=>r.json()),fetch('words.json').then(r=>r.json())]);
     const a=[...c.st];for(let i=0;i<a.length;i+=2)ST[a[i]]=a[i+1];
     const b=[...c.ts];for(let i=0;i<b.length;i+=2)TS[b[i]]=b[i+1];
     WORDS=w.w.filter(x=>x.x!=null);SENTS=w.x;
